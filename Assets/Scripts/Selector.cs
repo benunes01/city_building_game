@@ -1,18 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Selector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private Camera cam;
+
+    public static Selector instance;
+
+    void Awake() {
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start() {
+        cam = Camera.main;
+    }
+
+    public Vector3 GetCurTilePosition() {
+        // return if we're hovering over UI
+    if(EventSystem.current.IsPointerOverGameObject())
+        return new Vector3(0, -99, 0);
+ 
+    // create the plane, ray and out distance
+    Plane plane = new Plane(Vector3.up, Vector3.zero);
+    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+    float rayOut = 0.0f;
+ 
+    // shoot the ray at the plane
+    if(plane.Raycast(ray, out rayOut))
     {
-        
+        // get the position at which we intersected the plane
+        Vector3 newPos = ray.GetPoint(rayOut) - new Vector3(0.5f, 0.0f, 0.5f);
+ 
+        // round that up to the nearest full number (nearest meter)
+        newPos = new Vector3(Mathf.CeilToInt(newPos.x), 0.0f, Mathf.CeilToInt(newPos.z));
+ 
+        return newPos;
+    }
+ 
+    return new Vector3(0, -99, 0);
     }
 }
