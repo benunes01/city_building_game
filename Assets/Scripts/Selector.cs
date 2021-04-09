@@ -19,8 +19,10 @@ public class Selector : MonoBehaviour
 
     public Vector3 GetCurTilePosition() {
         // return if we're hovering over UI
-    if(EventSystem.current.IsPointerOverGameObject())
+    if(EventSystem.current.IsPointerOverGameObject()) {
         return new Vector3(0, -99, 0);
+    }
+        
  
     // create the plane, ray and out distance
     Plane plane = new Plane(Vector3.up, Vector3.zero);
