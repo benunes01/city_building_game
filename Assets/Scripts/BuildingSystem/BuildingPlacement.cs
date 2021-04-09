@@ -15,6 +15,12 @@ public class BuildingPlacement : MonoBehaviour
 
     public GameObject placementIndicator;
     public GameObject bulldozeIndicator;
+
+    public GroundGrid groundGrid;
+
+    void Start() {
+        CancelBuildingPlacement();
+    }
     
     void Update () {
     // cancel building placement
@@ -46,6 +52,22 @@ public class BuildingPlacement : MonoBehaviour
         } else if(Input.GetMouseButtonDown(0) && currentlyBulldozering) {
             Bulldoze();
     }
+
+    SetTilingGrid();
+        
+    }
+
+    public void SetTilingGrid() {
+        if(currentlyPlacing || currentlyBulldozering) {
+            groundGrid.GetComponent<Renderer>().material.mainTextureScale = new Vector2(50, 50);
+        }
+        else {
+            groundGrid.GetComponent<Renderer>().material.mainTextureScale = new Vector2(0, 0);
+        }
+    }
+
+    public bool GetCurrentlyPlacing() {
+        return currentlyPlacing;
     }
 
     public void BeginNewBuildingPlacement(BuildingPreset preset) {
