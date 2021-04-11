@@ -1140,7 +1140,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 821879186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1514897042}
+        m_TargetAssemblyTypeName: City, Assembly-CSharp
+        m_MethodName: EndTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &821879186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1748,6 +1760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placementIndicator: {fileID: 1441396580}
   bulldozeIndicator: {fileID: 1198577116}
+  groundGrid: {fileID: 0}
 --- !u!114 &1514897041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1772,6 +1785,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096908553f71b9240b5e90be6d131482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  money: 0
+  day: 0
+  curPopulation: 0
+  curJobs: 0
+  curFood: 0
+  maxPopulation: 0
+  maxJobs: 0
+  incomePerJob: 0
+  statsText: {fileID: 0}
+  buildings: []
 --- !u!4 &1514897043
 Transform:
   m_ObjectHideFlags: 0

@@ -20,11 +20,19 @@ public class City : MonoBehaviour
 
     public static City instance;
 
-    void Awake() {
+    void Awake ()
+    {
         instance = this;
     }
 
-    public void OnPlaceBuilding(Building building) {
+    void Start ()
+    {
+        UpdateStatText();
+    }
+
+    // called when we place down a building
+    public void OnPlaceBuilding (Building building)
+    {
         money -= building.preset.cost;
 
         maxPopulation += building.preset.population;
@@ -34,7 +42,9 @@ public class City : MonoBehaviour
         UpdateStatText();
     }
 
-    public void OnRemoveBuilding(Building building) {
+    // called when we bulldoze a building
+    public void OnRemoveBuilding (Building building)
+    {
         maxPopulation -= building.preset.population;
         maxJobs -= building.preset.jobs;
         buildings.Remove(building);
@@ -44,7 +54,55 @@ public class City : MonoBehaviour
         UpdateStatText();
     }
 
-    void UpdateStatText() {
+    // updates the stats text
+    void UpdateStatText ()
+    {
+        statsText.text = string.Format("Day: {0}   Money: ${1}   Pop: {2} / {3}   Jobs: {4} / {5}   Food: {6}", new object[7] { day, money, curPopulation, maxPopulation, curJobs, maxJobs, curFood });
+    }
 
+    // called when we click the "End Turn" button
+    public void EndTurn ()
+    {
+        day++;
+        CalculateMoney();
+        CalculatePopulation();
+        CalculateJobs();
+        CalculateFood();
+
+        UpdateStatText();
+    }
+
+    void CalculateMoney ()
+    {
+        money += curJobs * incomePerJob;
+
+        foreach(Building building in buildings)
+            money -= building.preset.costPerTurn;
+    }
+
+    void CalculatePopulation ()
+    {
+        if(curFood >= curPopulation && curPopulation < maxPopulation)
+        {
+            curFood -= curPopulation / 4;
+            curPopulation = Mathf.Min(curPopulation + (curFood / 4), maxPopulation);
+        }
+        else if(curFood < curPopulation)
+        {
+            curPopulation = curFood;
+        }
+    }
+
+    void CalculateJobs ()
+    {
+        curJobs = Mathf.Min(curPopulation, maxJobs);
+    }
+
+    void CalculateFood ()
+    {
+        curFood = 0;
+
+        foreach(Building building in buildings)
+            curFood += building.preset.food;
     }
 }
